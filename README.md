@@ -3,7 +3,7 @@
 - **Data Analytics Consultant** @[The Information Lab](https://www.theinformationlab.co.uk)
 - Skills: Data Analysis, Data Visualisation, Data Engineering, Tableau, Alteryx, PowerBI
 
-`Xx VOTD`
+`VOTD`
 
 <div align="left">
 <img src="https://img.shields.io/badge/Tableau-0052CC?style=for-the-badge&logo=tableau&logoColor=white">
