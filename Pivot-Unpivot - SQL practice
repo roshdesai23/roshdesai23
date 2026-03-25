@@ -1,0 +1,14 @@
+select *
+
+from pd2023_wk04_january
+
+pivot(max(value) for demographic in ('Ethnicity', 'Account Type', 'Date of Birth'))
+
+//Unpivot//
+
+select *
+
+from pd2023_wk03_targets
+
+unpivot(Targets for Quarters in (Q1, Q2, Q3, Q4))
+
