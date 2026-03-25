@@ -1,6 +1,6 @@
 ### Hi, I'm Rosh👋
-<img width="300" height="300" alt="DS_55_6_Roshan_227ebba92f" src="https://github.com/user-attachments/assets/32b6e50d-bd2a-4bd5-8437-ec7cb8d7a0a5" />
 
+![1772224266585](https://github.com/user-attachments/assets/4984b72e-a5cf-4b6a-a36b-87d1294100fb)
 
 >Helping people make sense of their data
 - **Data Analytics Consultant** @[The Information Lab](https://www.theinformationlab.co.uk)
