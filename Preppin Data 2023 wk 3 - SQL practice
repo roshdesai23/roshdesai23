@@ -1,0 +1,30 @@
+select tar.Online_or_In_Person
+, tar.quarters
+, tar.targets
+, sales.total_sales - tar.targets as "Variance"
+
+
+from (select *
+from pd2023_wk03_targets
+unpivot(Targets for Quarters in (Q1, Q2, Q3, Q4))) as tar
+
+left join 
+
+(select sum(value) as Total_Sales
+, iff(online_or_in_person = 1, 'Online', 'In-Person') as "Online_or_In-Person" 
+, 'Q'||date_part(quarter, to_date(transaction_date, 'DD/MM/YYYY HH24:mi:SS')) as Quarter
+
+from pd2023_wk01
+    where transaction_code like 'DSB%'
+
+GROUP BY quarter
+, online_or_in_person) as sales
+
+//looking at the output, understand the 4 columns you need and how to construct those 4 columns and where you need it from//
+
+//this is all constructing the sales table that you have created to join onto the targets table// 
+
+//you have the sum of sales written as total sales, you have then converted the online and in person column to have names for the numbers, finally, you have changed the quarter to be the number of the quarter as well as concatenating Q with the number.//
+
+on sales.quarter = tar.quarters
+and sales."Online_or_In-Person" = tar.online_or_in_person
