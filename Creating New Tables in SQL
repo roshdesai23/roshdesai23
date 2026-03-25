@@ -1,0 +1,14 @@
+create table 
+til_playground.temp.RD_New_Table
+    (
+    Age number (38,0)
+    , Year_of_birth number (38,0)
+)
+
+
+    ;
+
+insert into til_playground.temp.RD_NEW_TABLE
+values
+(25,26)
+,(1998,1999)
