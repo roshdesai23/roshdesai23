@@ -1,0 +1,51 @@
+select d.forename
+, d.surname
+, m."Monaco Wins"
+, d.driverid
+
+from results res
+inner join races r
+    on res.raceid = r.raceid
+
+    inner join drivers d
+    on res.driverid = d.driverid
+
+left join (select 
+            res.driverid,
+            count(res.driverid) as "Monaco Wins"
+            from results res
+            inner join races r 
+            on res.raceid = r.raceid where name = 'Monaco Grand Prix' and position = '1'
+            group by res.driverid)
+            
+as M on d.driverid = m.driverid
+ where name = 'Monaco Grand Prix' and year = '2021'
+
+//Output 2//
+
+select max(res.fastestlapspeed) as "Fastest Ever Speed"
+, d.forename
+, d.surname
+, r.name
+
+from results res
+inner join races r
+    on res.raceid = r.raceid
+
+    inner join drivers d
+    on res.driverid = d.driverid
+        where name = 'Monaco Grand Prix'
+        and year = 2021
+        
+group by res.driverid
+, d.forename
+, d.surname
+, r.name
+
+order by max(res.fastestlapspeed) desc
+
+;
+select 
+            driverid,
+            count(driverid) as "Monaco Wins"
+            from results res
