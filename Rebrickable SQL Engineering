@@ -1,0 +1,65 @@
+-------------------------------------------------------------------
+-- 1. DIMENSION TABLE: The Master Ecosystem
+-- Powers: Gigantism (Average parts), Habitats (Themes)
+-------------------------------------------------------------------
+CREATE OR REPLACE VIEW til_playground.rd_lego.dim_animal_sets AS
+SELECT 
+    s.set_num,
+    s.name AS set_name,
+    s.year AS release_year,
+    s.num_parts,
+    t.name AS theme_name,
+    -- Creating our dynamic slicer category
+    CASE 
+        WHEN s.name ILIKE '%Dragon%' OR t.name ILIKE '%Dragon%' THEN 'Dragon'
+        WHEN s.name ILIKE '%Dinosaur%' OR t.name ILIKE '%Jurassic%' OR t.name ILIKE '%Dino%' THEN 'Dinosaur'
+        WHEN s.name ILIKE '%Dog%' THEN 'Dog'
+        WHEN s.name ILIKE '%Cat%' THEN 'Cat'
+        WHEN s.name ILIKE '%Shark%' THEN 'Shark'
+        WHEN s.name ILIKE '%Bird%' THEN 'Bird'
+        WHEN s.name ILIKE '%Bear%' THEN 'Bear'
+        WHEN s.name ILIKE '%Lion%' THEN 'Lion'
+        WHEN s.name ILIKE '%Tiger%' THEN 'Tiger'
+        WHEN s.name ILIKE '%Horse%' THEN 'Horse'
+        ELSE 'Other Fauna'
+    END AS species_family
+FROM til_playground.rd_lego.sets s
+LEFT JOIN til_playground.rd_lego.themes t ON s.theme_id = t.id
+WHERE 
+    -- Filtering to our specific Kingdom 
+    t.name ILIKE ANY ('%Animal%', '%Creature%', '%Dinosaur%', '%Jurassic%')
+    OR s.name ILIKE ANY (
+        '%Elephant%', '%Shark%', '%Tiger%', '%Lion%', 
+        '%Bird%', '%Dog%', '%Cat%', '%Dragon%', '%Bear%'
+    );
+
+-------------------------------------------------------------------
+-- 2. FACT TABLE: The Genetics / Evolution Engine
+-- Powers: The Pace of Evolution (Counting unique genetic moulds over time)
+-------------------------------------------------------------------
+CREATE OR REPLACE VIEW til_playground.rd_lego.fact_animal_genetics AS
+SELECT 
+    das.set_num,
+    das.release_year,
+    das.species_family,
+    p.part_num,
+    p.name AS part_name,
+    pc.name AS part_category_name
+FROM til_playground.rd_lego.dim_animal_sets das
+-- Traversing the data model: Sets -> Inventories -> Inventory Parts -> Parts -> Categories
+JOIN til_playground.rd_lego.inventories i ON das.set_num = i.set_num
+JOIN til_playground.rd_lego.inventory_parts ip ON i.id = ip.inventory_id
+JOIN til_playground.rd_lego.parts p ON ip.part_num = p.part_num
+JOIN til_playground.rd_lego.part_categories pc ON p.part_cat_id = pc.id
+WHERE 
+    
+    pc.name ILIKE '%Animal%';
+
+
+    SELECT * FROM til_playground.rd_lego.dim_animal_sets;
+
+
+
+-- Link : https://app.powerbi.com/groups/me/reports/c58ecb70-a20c-4dd1-aaeb-1c7e79f66e6a/8b3e3bc9cdc1d677b63a?experience=power-bi&bookmarkGuid=17b852b0e83e5047ad03 
+
+-- Documentation: 
